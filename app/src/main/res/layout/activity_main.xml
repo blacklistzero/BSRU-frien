@@ -51,7 +51,7 @@
                 android:hint="User :"
                 android:layout_gravity="center_vertical"
                 android:textColor="@android:color/background_dark"
-                android:textColorHint="?attr/colorControlHighlight"
+                android:textColorHint="@android:color/holo_red_dark"
                 android:textColorLink="@color/colorPrimaryDark" />
         </LinearLayout>
 
@@ -77,7 +77,7 @@
                 android:hint="Password :"
                 android:layout_gravity="center_vertical"
                 android:textColor="@android:color/background_dark"
-                android:textColorHint="?attr/colorControlHighlight"
+                android:textColorHint="@android:color/holo_red_dark"
                 android:textColorLink="@color/colorPrimaryDark" />
 
         </LinearLayout>
