@@ -9,7 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="blacx.ananboonmaut.bsruproject.MainActivity">
+    tools:context="blacx.ananboonmaut.bsruproject.MainActivity"
+    android:background="@drawable/wallpapers_a_00">
 
     <LinearLayout
         android:orientation="vertical"
@@ -17,14 +18,16 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="50dp"
+        android:background="#82ffffff"
+        android:padding="20dp">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/no_image"
             android:id="@+id/imageView"
-            android:layout_marginBottom="15dp" />
+            android:layout_marginBottom="30dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -34,8 +37,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/user"
-                android:id="@+id/imageView2" />
+                app:srcCompat="@mipmap/user1"
+                android:id="@+id/imageView7"
+                android:layout_weight="0" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -72,4 +76,26 @@
 
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:text="Sign in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button2"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="Sign up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button3"
+            android:layout_weight="1" />
+    </LinearLayout>
+
 </RelativeLayout>
