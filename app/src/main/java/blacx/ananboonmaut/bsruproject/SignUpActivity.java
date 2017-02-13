@@ -201,7 +201,7 @@ public class SignUpActivity extends AppCompatActivity {
             String tag = "10febV2";
             Log.d(tag, "Name ==> " + nameString);
             Log.d(tag, "User ==> " + userString);
-            Log.d(tag, "Password ==> " + passString);1
+            Log.d(tag, "Password ==> " + passString);
 
             nameImageString = "http://swiftcodingthai.com//bsru/Image_king" +
                     pathImageString.substring(pathImageString.lastIndexOf("/"));
