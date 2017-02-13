@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+
+import org.jibble.simpleftp.SimpleFTP;
+
+import java.io.File;
 
 public class SignUpActivity extends AppCompatActivity {
     // Explicit
@@ -25,6 +30,7 @@ public class SignUpActivity extends AppCompatActivity {
             pathImageString, nameImageString;  // ประกาศตัวแปรใหม่
     private Uri uri;
     private boolean aboolean = true;
+    private int anInt = 0;
 
 
     @Override
@@ -36,15 +42,45 @@ public class SignUpActivity extends AppCompatActivity {
 
         bindWidget();
 
-            // button Controller
+        // button Controller
 
         buttonController();
 
         // image Controller
         imageController();
-
+        //Radio Controller
+        radioController();
 
     }  // Main Method
+
+    private void radioController() {
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+                switch (i) {
+                    case R.id.radioButton:
+                        anInt = 0;
+                        break;
+                    case R.id.radioButton2:
+                        anInt = 1;
+                        break;
+                    case R.id.radioButton3:
+                        anInt = 2;
+                        break;
+                    case R.id.radioButton4:
+                        anInt = 3;
+                        break;
+                    case R.id.radioButton5:
+                        anInt = 4;
+                        break;
+                }   // switch
+
+            }   // onChecked
+        });
+
+    }   // radioController
 
     private void bindWidget() {
         nameEditText = (EditText) findViewById(R.id.editText7);
@@ -74,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             //Find path of image Choose ต้องการเลือกที่ๆรูปอยู่
-            String[]strings = new String[]{MediaStore.Images.Media.DATA};
+            String[] strings = new String[]{MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(uri, strings, null, null, null);
             if (cursor != null) {
                 cursor.moveToFirst();
@@ -85,9 +121,6 @@ public class SignUpActivity extends AppCompatActivity {
                 pathImageString = uri.getPath();
             }
             Log.d("10febV1", "pathImage ==>" + pathImageString);
-
-
-
 
 
         }  //if
@@ -104,8 +137,6 @@ public class SignUpActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 startActivityForResult(Intent.createChooser(intent, "โปรดเลือกแอพดูภาพ"), 1); // ถ้าต้องการอัพหลายรูปก็ทำ 1 2 3 4 5
-
-
 
 
             }  // onclick
@@ -138,6 +169,9 @@ public class SignUpActivity extends AppCompatActivity {
 
                 } else {
                     //EvertThing Ok
+
+                    uploadValueToServer();
+
                 }
 
 
@@ -145,8 +179,58 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }     //buttonController
 
+    private void uploadValueToServer() {
+
+        try {
+            // Upload Image
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy
+                    .Builder()
+                    .permitAll()
+                    .build();
+            StrictMode.setThreadPolicy(policy);
+
+            SimpleFTP simpleFTP = new SimpleFTP();
+            simpleFTP.connect("ftp.swiftcodingthai.com", 21,
+                    "bsru@swiftcodingthai.com", "Abc12345");
+            simpleFTP.bin();
+            simpleFTP.cwd("Image_king");
+            simpleFTP.stor(new File(pathImageString));
+            simpleFTP.disconnect();
+
+            // Upload text
+            String tag = "10febV2";
+            Log.d(tag, "Name ==> " + nameString);
+            Log.d(tag, "User ==> " + userString);
+            Log.d(tag, "Password ==> " + passString);
+
+            nameImageString = "http://swiftcodingthai.com//bsru/Image_king" +
+                    pathImageString.substring(pathImageString.lastIndexOf("/"));
+            Log.d(tag, "Image ==> " + nameImageString);
+            Log.d(tag, "Avata ==> " + anInt);
+
+            AddValueToUser addValueToUser = new AddValueToUser(SignUpActivity.this,
+                    nameString, userString, passString, nameImageString,
+                    Integer.toString(anInt));
+            addValueToUser.execute("http://swiftcodingthai.com/bsru/add_master.php");
+            String s = addValueToUser.get();
+            Log.d(tag, "Result ==> " + s);
+
+            if (Boolean.parseBoolean(s)) {
+                finish();
+
+            } else {
+                MyAlert myAlert = new MyAlert(SignUpActivity.this);
+                myAlert.myDialog("Cannot Upload", "Upload False");
+
+            }
 
 
+        } catch (Exception e) {
+            Log.d("10febV1", "e upload ==>" + e.toString());
+
+        }
+
+    } // upload
 
 
 }    // Main Class
