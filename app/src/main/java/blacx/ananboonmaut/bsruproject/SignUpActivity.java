@@ -27,9 +27,9 @@ public class SignUpActivity extends AppCompatActivity {
     private RadioGroup radioGroup;
     private Button button;
     private String nameString, userString, passString,
-            pathImageString, nameImageString;  // ประกาศตัวแปรใหม่
+            pathImageString, nameImageString;
     private Uri uri;
-    private boolean aboolean = true;
+    private boolean aBoolean = true;
     private int anInt = 0;
 
 
@@ -42,12 +42,12 @@ public class SignUpActivity extends AppCompatActivity {
 
         bindWidget();
 
-        // button Controller
-
+        //Button Controller
         buttonController();
 
-        // image Controller
+        //Image Controller
         imageController();
+
         //Radio Controller
         radioController();
 
@@ -82,14 +82,18 @@ public class SignUpActivity extends AppCompatActivity {
 
     }   // radioController
 
+
     private void bindWidget() {
+
         nameEditText = (EditText) findViewById(R.id.editText7);
         userEditText = (EditText) findViewById(R.id.editText6);
         passEditText = (EditText) findViewById(R.id.editText5);
         imageView = (ImageView) findViewById(R.id.imageView2);
         radioGroup = (RadioGroup) findViewById(R.id.ragAvata);
-        button = (Button) findViewById(R.id.button);
+        button = (Button) findViewById(R.id.button3);
+
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -97,11 +101,11 @@ public class SignUpActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
 
-            aboolean = false;
-
+            aBoolean = false;
             uri = data.getData();
-            // setup image choose to imageview
+            //Setup Image Choose to ImageView
             try {
+
                 Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
                 imageView.setImageBitmap(bitmap);
 
@@ -109,10 +113,12 @@ public class SignUpActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            //Find path of image Choose ต้องการเลือกที่ๆรูปอยู่
+            //Find Path of Image Choose
             String[] strings = new String[]{MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(uri, strings, null, null, null);
+
             if (cursor != null) {
+
                 cursor.moveToFirst();
                 int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 pathImageString = cursor.getString(index);
@@ -120,13 +126,14 @@ public class SignUpActivity extends AppCompatActivity {
             } else {
                 pathImageString = uri.getPath();
             }
-            Log.d("10febV1", "pathImage ==>" + pathImageString);
+
+            Log.d("10febV1", "pathImage ==> " + pathImageString);
 
 
-        }  //if
-
+        }   //if
 
     }  //onActivityResult
+
 
     private void imageController() {
 
@@ -136,16 +143,17 @@ public class SignUpActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-                startActivityForResult(Intent.createChooser(intent, "โปรดเลือกแอพดูภาพ"), 1); // ถ้าต้องการอัพหลายรูปก็ทำ 1 2 3 4 5
+                startActivityForResult(Intent.createChooser(intent, "โปรดเลือกแอพดูภาพ"), 1);
 
 
-            }  // onclick
+            }   // onClick
         });
 
+    }  //imagecontro
 
-    }   //image controller
 
     private void buttonController() {
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,34 +163,33 @@ public class SignUpActivity extends AppCompatActivity {
                 userString = userEditText.getText().toString().trim();
                 passString = passEditText.getText().toString().trim();
 
-                //Check Space เช็คช่องว่างป่าว
+                //Check Space
                 if (nameString.equals("") || userString.equals("") || passString.equals("")) {
-                    //True ==> Have Space
-
+                    // True ==> Have Space
                     MyAlert myAlert = new MyAlert(SignUpActivity.this);
-                    myAlert.myDialog("มีช่องว่าง", "กรุณากรอกให้ครบทุกช่อง");
-                } else if (aboolean) {
-                    //non chose image
+                    myAlert.myDialog("มีช่องว่าง", "กรุณากรอกให้ครบทุกช่อง ");
+                } else if (aBoolean) {
+                    //Non Choose Image
                     MyAlert myAlert = new MyAlert(SignUpActivity.this);
-                    myAlert.myDialog("ยังไม่เลือกรูปภาพ", "กรุณาเลือกรูปภาพ");
-
+                    myAlert.myDialog("ยังไม่เลือกรูปภาพ", "กรุณาเลือกรูปภาพส");
 
                 } else {
-                    //EvertThing Ok
+                    //EveryThing OK
 
                     uploadValueToServer();
 
                 }
 
-
-            }  //onClick
+            }   // onClick
         });
+
     }     //buttonController
 
     private void uploadValueToServer() {
 
         try {
-            // Upload Image
+
+            //Upload Image
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy
                     .Builder()
                     .permitAll()
@@ -197,13 +204,13 @@ public class SignUpActivity extends AppCompatActivity {
             simpleFTP.stor(new File(pathImageString));
             simpleFTP.disconnect();
 
-            // Upload text
+            //Upload Text
             String tag = "10febV2";
             Log.d(tag, "Name ==> " + nameString);
             Log.d(tag, "User ==> " + userString);
             Log.d(tag, "Password ==> " + passString);
 
-            nameImageString = "http://swiftcodingthai.com//bsru/Image_king" +
+            nameImageString = "http://swiftcodingthai.com/bsru/Image_master" +
                     pathImageString.substring(pathImageString.lastIndexOf("/"));
             Log.d(tag, "Image ==> " + nameImageString);
             Log.d(tag, "Avata ==> " + anInt);
@@ -217,17 +224,16 @@ public class SignUpActivity extends AppCompatActivity {
 
             if (Boolean.parseBoolean(s)) {
                 finish();
-
             } else {
                 MyAlert myAlert = new MyAlert(SignUpActivity.this);
-                myAlert.myDialog("Cannot Upload", "Upload False");
-
+                myAlert.myDialog("Cannot Uploas", "Upload False");
             }
 
 
-        } catch (Exception e) {
-            Log.d("10febV1", "e upload ==>" + e.toString());
 
+
+        } catch (Exception e) {
+            Log.d("10febV1", "e upload ==> " + e.toString());
         }
 
     } // upload

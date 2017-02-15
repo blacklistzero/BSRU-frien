@@ -17,32 +17,32 @@ import com.squareup.okhttp.Response;
  * Created by Poyopoyo on 10/2/2560.
  */
 
-public class AddValueToUser extends AsyncTask<String, Void, String> {
-    //Explicit จะประกาศตัวแปร
-    private Context context;
-    private String nameString, userString, passString, imageString, avataString;
-    private ProgressDialog progressDialog;
-    public AddValueToUser(Context context,
-                          String nameString,
-                          String userString,
-                          String passString,
-                          String imageString,
-                          String avataString) {
+public class AddValueToUser extends AsyncTask<String, Void, String>{
+
+               //Explicit
+                private Context context;
+        private String nameString, userString, passString, imageString, avataString;
+        private ProgressDialog progressDialog;
+
+        public AddValueToUser(Context context,
+                              String nameString,
+                              String userString,
+                              String passString,
+                              String imageString,
+                              String avataString) {
         this.context = context;
         this.nameString = nameString;
         this.userString = userString;
-        this.passString = passString;
-        this.imageString = imageString;
-        this.avataString = avataString;
-
-
-    }  // Constrator
+                this.passString = passString;
+                this.imageString = imageString;
+                this.avataString = avataString;
+            }  // Constrator
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         progressDialog = ProgressDialog.show(context, "Upload Value",
-                "Please Wait Few Minis...");
+          "Please Wait Few Minus ...");
 
     }
 
@@ -68,9 +68,11 @@ public class AddValueToUser extends AsyncTask<String, Void, String> {
 
 
         } catch (Exception e) {
-            Log.d("10febV2", "e doin ==>" + e.toString());
-            return null;
-        }
+               Log.d("10febV2", "e doin ==> " + e.toString());
+               return null;
+           }
+
+
 
 
 
