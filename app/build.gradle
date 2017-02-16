@@ -28,4 +28,4 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/simpleftp.jar')
     compile 'com.squareup.okhttp:okhttp:2.0.0'
-}
+} //
